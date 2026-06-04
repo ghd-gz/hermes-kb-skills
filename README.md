@@ -1,6 +1,6 @@
 # Hermes KB Skills — 知识库技能包
 
-让 Hermes Agent 拥有结构化的知识管理能力——场景驱动的读写、全文检索记忆、行为模式约束。
+让 Hermes Agent 拥有结构化的知识管理能力 + 专业PPT制作能力。
 
 ## 安装方式
 
@@ -9,66 +9,86 @@
 ```bash
 hermes skills tap add https://github.com/ghd-gz/hermes-kb-skills
 hermes skills install knowledge-base-architecture
-hermes skills install kb-as-memory
-hermes skills install scene-behavior-core
+hermes skills install guizang-ppt-skill
 ```
 
 ### 方式二：直接 URL 安装
 
 ```bash
+# 知识库
 hermes skills install https://raw.githubusercontent.com/ghd-gz/hermes-kb-skills/main/skills/knowledge-base-architecture/SKILL.md
-hermes skills install https://raw.githubusercontent.com/ghd-gz/hermes-kb-skills/main/skills/kb-as-memory/SKILL.md
-hermes skills install https://raw.githubusercontent.com/ghd-gz/hermes-kb-skills/main/skills/scene-behavior-core/SKILL.md
+# PPT
+hermes skills install https://raw.githubusercontent.com/ghd-gz/hermes-kb-skills/main/skills/guizang-ppt-skill/SKILL.md
 ```
 
 ### 方式三：手动部署
 
 将 `skills/` 目录下的 SKILL.md 复制到 `~/.hermes/skills/` 对应目录，重启会话后可用。
 
-## 技能一览
+## 技能一览（更新）
 
-| 技能 | 用途 | 独立可用 |
-|:-----|:-----|:--------:|
-| **knowledge-base-architecture** | 人与AI共享知识库的完整架构——目录结构、frontmatter 元数据协议、场景驱动读写、6类知识分类体系 | ✅ |
-| **kb-as-memory** | 三层记忆系统——FTS5全文索引 → 同义扩展检索 → 自动归档，让知识库变成可实时检索的记忆层 | ❌ 依赖 KB 架构 |
-| **scene-behavior-core** | 场景体系的元模式——决策树路由 + 六条核心行为铁律，规范 Agent 在任何场景下的行为范式 | ✅ |
+| 技能 | 分类 | 用途 | 独立可用 |
+|:-----|:----|:-----|:--------:|
+| **knowledge-base-architecture** | 知识库 | 人与AI共享知识库的完整架构 | ✅ |
+| **kb-as-memory** | 知识库 | 三层记忆系统——FTS5→语义检索→自动归档 | ❌ 依赖KB架构 |
+| **scene-behavior-core** | 元模式 | 决策树路由 + 六条核心行为铁律 | ✅ |
+| **guizang-ppt-skill** | PPT制作 | 网页级横向翻页HTML演示文稿，替代Quarto/Pandoc | ✅ |
+| **ppt-making-workflow** | PPT制作 | 8步完整管道——需求对齐→内容组织→交付归档 | ❌ 依赖guizang-ppt-skill |
+| **pptx-to-html-mece** | PPT制作 | PPTX文件精确复刻为HTML，三层穿透读坐标 | ✅ |
 
-## 快速开始
+## PPT制作技能
 
-1. 安装 `knowledge-base-architecture` 后，在 Hermes 会话中加载：
+### guizang-ppt-skill
 
+基于归藏的网页PPT模板，生成横向翻页HTML演示文稿。双风格（电子杂志风/瑞士国际主义风），8种表达模型，ECharts+Mermaid图表集成，单文件自包含交付。
+
+核心特点：
+- **两种风格**：叙事型（杂志风）+ 数据型（瑞士风）
+- **8种表达模型**：PREP/RIDE/SCQA/STAR/空雨伞/FIRE/SCRTV/5W2H，每页可不同
+- **图表双引擎**：ECharts（数据图表）+ Mermaid.js（流程图/架构图）
+- **内容完整性铁律**：所有数字/名称/百分比全部保留
+- **单文件交付**：图片base64内嵌，双击即看，零依赖
+
+### ppt-making-workflow
+
+PPT制作的完整工作流管道，从需求对齐到交付归档。8步流程 + 硬性Checkpoint节点（Plan/Content/Build/Quality）。
+
+### pptx-to-html-mece
+
+将现有PPTX文件精确复刻为HTML。核心方法：
+- **MECE三层穿透**：Master(母版)→Layout(版式)→Slide(页面)
+- **坐标映射**：读PPTX EMU坐标直接转CSS px，不用vision猜
+- **Layout层图片**：从版式层提取标题栏图等容易被漏掉的元素
+- **10大陷阱清单**：已踩过的坑全记录
+
+## 安装方式
+
+```bash
+# GitHub Tap（推荐）
+hermes skills tap add https://github.com/ghd-gz/hermes-kb-skills
+
+# 安装知识库技能
+hermes skills install knowledge-base-architecture
+hermes skills install kb-as-memory
+hermes skills install scene-behavior-core
+
+# 安装PPT技能
+hermes skills install guizang-ppt-skill
+hermes skills install ppt-making-workflow
+hermes skills install pptx-to-html-mece
+
+# 或直接URL安装
+hermes skills install https://raw.githubusercontent.com/ghd-gz/hermes-kb-skills/main/skills/guizang-ppt-skill/SKILL.md
 ```
-/skill knowledge-base-architecture
-```
 
-2. 告诉 Agent：「我们来搭建知识库」，它会引导你完成初始化。
+## 快速开始（PPT）
 
-3. 根据自己的需求，可以：
-   - 从 `knowledge-base-architecture` 的 frontmatter 协议开始，给已有文档加元数据
-   - 加载 `scene-behavior-core` 让 Agent 遵守核心行为铁律
-   - 继续安装 `kb-as-memory` 获得全文检索能力
-
-## 核心设计理念
-
-### 一份数据，两种观察
-
-知识库是一组 `.md` 文件。人可以按目录浏览，Agent 通过 frontmatter 元数据检索。同一份文件，两种使用方式。
-
-### 场景驱动
-
-知识不是平铺的，是按「场景」组织的。写时按「这是概念/方法/案例/工具/事实/SOP」分类存入对应目录，读时按「当前在做什么场景」触发检索。
-
-### 行为元模式
-
-`scene-behavior-core` 定义了所有场景通用的六条行为铁律——显化假设、管理歧义、敢于反对、执行简单性、维持范围纪律、验证不假设。这是从 addyosmani/agent-skills 借鉴并改造的元模式。
-
-## 自定义
-
-所有技能都是开源的。你可以：
-- Fork 这个仓库定制自己的 SKILL 包
-- 修改 frontmatter 协议中的 discipline 列表（当前8个元学科）
-- 扩展场景路由表匹配你自己的业务场景
+1. 安装 `guizang-ppt-skill`
+2. 在Hermes中加载：`/skill guizang-ppt-skill`
+3. 告诉Agent：「帮我做一个PPT，给XX看的，讲XX内容」
+4. Agent会按9步工作流产出：需求对齐→内容组织→表达匹配→模板选择→生成→交付
 
 ## License
 
 MIT
+
